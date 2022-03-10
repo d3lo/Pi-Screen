@@ -7,7 +7,7 @@ class ApiController < ApplicationController
 	# end
 
 	def marquee
-		puts marquee_input
+		exec("python ~/rpi_ws281x/python/examples/marquee.py --message=\"#{marquee_input}\" --color=\"rainbow\" --speed=15 -r")
 
 		respond_to do |format|
 			msg = { :status => "ok", :message => "Success!", :html => "<b>...</b>" }
