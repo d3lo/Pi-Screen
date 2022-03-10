@@ -7,22 +7,40 @@ class InputBoard extends Component {
   state = { input: "" }
 
   onChange = (input) => {
-    console.log("Input changed", input);
     this.setState({ input: input });
   }
 
   onKeyPress = (button) => {
-    if(button == "{enter}") {
-      // Send this.state.input to backend
-      // reset input
-    }
     console.log("Button pressed", button);
+
+    if(button == "{enter}") {
+      const token = document.querySelector('meta[name="csrf-token"]').content;
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': token
+        },
+        body: JSON.stringify({ input: this.state.input })
+      };
+      fetch('http://localhost:3000/api/marquee', requestOptions)
+        .then(async response => {
+          console.log(response);
+        }).catch(error => {
+          console.error('There was an error!', error);
+        });
+
+      this.setState({ input: '' });
+      this.keyboard.clearInput();
+    }
   }
 
   render() {
     return (
       <>
         <Keyboard
+          keyboardRef={(r) => (this.keyboard = r)}
           onChange={this.onChange}
           onKeyPress={this.onKeyPress}
           layout={{
