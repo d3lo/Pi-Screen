@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+
+.pi-screen {
+    &-textarea {
+        width:  100%;
+        font-family: monospace;
+        font-size: 4em;
+    }
+}
