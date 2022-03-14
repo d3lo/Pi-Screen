@@ -1,5 +1,6 @@
 class ApiController < ApplicationController
-	# before_action :ensure_json_request  
+	# before_action :ensure_json_request
+	skip_before_action :verify_authenticity_token
 
 	# def ensure_json_request  
 	# 	return if request.format == :json
@@ -7,7 +8,11 @@ class ApiController < ApplicationController
 	# end
 
 	def marquee
-		exec("python ~/rpi_ws281x/python/examples/marquee.py --message=\"#{marquee_input}\" --color=\"rainbow\" --speed=15 -r")
+		# kills other processes
+		exec("sudo pkill -f \"sudo python\"")
+		# starts process
+		exec("sudo python ~/rpi_ws281x/python/examples/marquee.py --message=\"#{marquee_input}\" --color=\"rainbow\" --speed=15 -r")
+
 
 		respond_to do |format|
 			msg = { :status => "ok", :message => "Success!", :html => "<b>...</b>" }

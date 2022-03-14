@@ -24,7 +24,7 @@ class InputBoard extends Component {
         },
         body: JSON.stringify({ input: this.state.input })
       };
-      fetch('http://localhost:3000/api/marquee', requestOptions)
+      fetch('http://localhost:9292/api/marquee', requestOptions)
         .then(async response => {
           console.log(response);
         }).catch(error => {
